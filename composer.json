@@ -1,0 +1,13 @@
+{
+  "name": "ueef/owlet",
+  "type": "library",
+  "require": {
+    "php": ">=7.1",
+    "ueef/assignable": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ueef\\Owlet\\": "src"
+    }
+  }
+}
