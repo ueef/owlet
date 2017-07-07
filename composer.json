@@ -2,8 +2,7 @@
   "name": "ueef/owlet",
   "type": "library",
   "require": {
-    "php": ">=7.1",
-    "ueef/assignable": "*"
+    "php": ">=7.1"
   },
   "autoload": {
     "psr-4": {
