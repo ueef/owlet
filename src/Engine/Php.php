@@ -7,22 +7,33 @@ namespace Ueef\Owlet\Engine {
     use Ueef\Owlet\Interfaces\EngineInterface;
     use Ueef\Owlet\Interfaces\ViewInterface;
 
-    class Php implements EngineInterface, AssignableInterface
+    class Php implements EngineInterface
     {
-        use AssignableTrait;
-
         /**
          * @var string
          */
         private $extension;
 
 
-        public function render(ViewInterface $context, $path, array &$args, string $content = ''): callable
+        public function __construct(?string $extension = null)
         {
+            $this->extension = $extension;
+        }
+
+        public function render(ViewInterface $context, $path, array &$args, ?string $content = null): string
+        {
+            $path = $this->buildPath($path);
             $renderer = function () use ($path, $content, &$args) {
                 extract($args, EXTR_OVERWRITE | EXTR_REFS);
-                include $path;
+
+                ob_start();
+                require $path;
+                return ob_get_clean();
             };
+
+            $renderer = $renderer->bindTo($context);
+
+            return $renderer();
         }
 
         public function exists(string $path): bool
