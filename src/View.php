@@ -45,7 +45,7 @@ namespace Ueef\Owlet {
                     $_path = $path . $suffix;
 
                     if (file_exists($_path)) {
-                        $content = $engine($this, $_path, $args, $content);
+                        $content = $engine->render($this, $_path, $args, $content);
                         break 2;
                     }
                 }
