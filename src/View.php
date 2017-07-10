@@ -29,7 +29,7 @@ namespace Ueef\Owlet {
             $this->engines = $engines;
         }
 
-        public function render($views, array $args, ?string $content = null): string
+        public function render($views, array $args = [], ?string $content = null): string
         {
             if (!is_array($views)) {
                 $views = [$views];
