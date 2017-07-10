@@ -31,7 +31,6 @@ namespace Ueef\Owlet {
 
         public function render(array $views, array $args, ?string $content = null): string
         {
-            $content = '';
             foreach ($views as $view) {
                 $content = $this->renderView($view, $args, $content);
             }
@@ -39,12 +38,14 @@ namespace Ueef\Owlet {
             return $content;
         }
 
-        private function renderView($view, array &$args, ?string $content = null)
+        private function renderView($view, array &$args, ?string $content = null): ?string
         {
-            foreach ($this->resolveViewPaths($view) as $path) {
-                foreach ($this->engines as $engine) {
-                    if ($engine->exists($path)) {
-                        $content = $engine->render($this, $path, $args, $content);
+            foreach ($this->resolvePaths($view) as $path) {
+                foreach ($this->engines as $suffix => $engine) {
+                    $_path = $path . $suffix;
+
+                    if (file_exists($_path)) {
+                        $content = $engine($this, $_path, $args, $content);
                         break 2;
                     }
                 }
@@ -53,20 +54,18 @@ namespace Ueef\Owlet {
             return $content;
         }
 
-        private function resolveViewPaths($viewPaths): array
+        private function resolvePaths($paths): array
         {
-            if (!is_array($viewPaths)) {
-                $viewPaths = [$viewPaths];
-            }
-
-            foreach ($viewPaths as &$path) {
-                $path = trim($path);
+            if (!is_array($paths)) {
+                $paths = [$paths];
             }
 
             $resolved = [];
-            foreach ($this->dirs as $dir) {
-                foreach ($viewPaths as $path) {
-                    $resolved[] = $dir . '/' . $path;
+            foreach ($paths as $path) {
+                $path = $this->correctViewPath($path);
+
+                foreach ($this->dirs as $dir) {
+                    $resolved[] = $dir . $path;
                 }
             }
 
