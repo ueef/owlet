@@ -17,7 +17,7 @@ namespace Ueef\Owlet\Engine {
                 return ob_get_clean();
             };
 
-            $renderer = $renderer->bindTo($context);
+            $renderer = $renderer->bindTo($context, $context);
 
             return $renderer();
         }
