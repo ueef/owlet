@@ -4,6 +4,12 @@ namespace Ueef\Owlet\Interfaces {
 
     interface ViewInterface
     {
-        public function render($views, array $args, string $content = null): ?string;
+        /**
+         * @param $views
+         * @param array $args
+         * @param null $content
+         * @return string
+         */
+        public function render($views, array $args, $content = null);
     }
 }
