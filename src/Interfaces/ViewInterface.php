@@ -1,9 +1,10 @@
 <?php
 
-namespace Ueef\Owlet\Interfaces {
+declare(strict_types=1);
 
-    interface ViewInterface
-    {
-        public function render($views, array $args, string $content = null): ?string;
-    }
+namespace Ueef\Owlet\Interfaces;
+
+interface ViewInterface
+{
+    public function render($views, array $args, string $content = null): ?string;
 }

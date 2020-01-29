@@ -1,25 +1,24 @@
 <?php
 
-namespace Ueef\Owlet\Engine {
+declare(strict_types=1);
 
-    use Ueef\Owlet\Interfaces\ViewInterface;
-    use Ueef\Owlet\Interfaces\EngineInterface;
+namespace Ueef\Owlet\Engine;
 
-    class Php implements EngineInterface
+use Ueef\Owlet\Interfaces\EngineInterface;
+use Ueef\Owlet\Interfaces\ViewInterface;
+
+class Php implements EngineInterface
+{
+    public function render(ViewInterface $context, string $path, array &$args, ?string $content = null): ?string
     {
-        public function render(ViewInterface $context, $path, array &$args, ?string $content = null): ?string
-        {
-            $renderer = function () use ($path, $content, &$args) {
-                extract($args, EXTR_OVERWRITE | EXTR_REFS);
+        $renderer = function () use ($path, $content, &$args) {
+            extract($args, EXTR_OVERWRITE | EXTR_REFS);
 
-                ob_start();
-                require $path;
-                return ob_get_clean();
-            };
+            ob_start();
+            require $path;
+            return ob_get_clean();
+        };
 
-            $renderer = $renderer->bindTo($context, $context);
-
-            return $renderer();
-        }
+        return $renderer->bindTo($context, $context)();
     }
 }
