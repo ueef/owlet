@@ -1,6 +1,8 @@
 {
   "name": "ueef/owlet",
   "type": "library",
+  "license": "MIT",
+  "description": "a simple view renderer based on php",
   "require": {
     "php": ">=7.1"
   },
